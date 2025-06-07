@@ -1,0 +1,22 @@
+<div id="search-form">
+    <form method="get">
+        <label for="categorie">Catégorie :</label>
+        <select name="categorie" id="categorie">
+            <option value="">-- Sélectionnez une catégorie --</option>
+            {% for cat in categories %}
+                <option value="{{ cat.id }}" {{ cat.id == selected_categorie ? 'selected' : '' }}>
+                    {{ cat.libelle }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label for="specialite">Spécialité :</label>
+        <select name="specialite" id="specialite">
+            {% if selected_specialite %}
+                <option value="{{ selected_specialite }}" selected></option>
+            {% else %}
+                <option value="">-- Sélectionnez une catégorie --</option>
+            {% endif %}
+        </select>
+    </form>
+<div>

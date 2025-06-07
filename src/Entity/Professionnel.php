@@ -116,4 +116,14 @@ class Professionnel
 
         return $this;
     }
+
+    // Accès rapide aux communautés d'un professionnel
+    public function getCommunautes(): Collection
+    {
+        return new ArrayCollection(
+            $this->adhesions
+                ->map(fn(Adhesion $adhesion) => $adhesion->getCommunaute())
+                ->toArray()
+        );
+    }
 }

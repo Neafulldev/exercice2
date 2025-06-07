@@ -21,6 +21,23 @@ class ProfessionnelRepository extends ServiceEntityRepository
         parent::__construct($registry, Professionnel::class);
     }
 
+    public function findByFilters(array $filters = [])
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        if (!empty($filters['categorie'])) {
+            $qb->andWhere('p.categorie = :catId')
+            ->setParameter('catId', $filters['categorie']);
+        }
+
+        if (!empty($filters['specialite'])) {
+            $qb->andWhere('p.specialite = :specId')
+            ->setParameter('specId', $filters['specialite']);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Professionnel[] Returns an array of Professionnel objects
 //     */

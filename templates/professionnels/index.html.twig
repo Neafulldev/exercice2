@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des professionnels{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h1>Liste des professionnels</h1>
+
+    {% include 'professionnels/_form.html.twig' %}
+
+    {% include 'professionnels/_result.html.twig' %}
+
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('professionnels') }}
+{% endblock %}

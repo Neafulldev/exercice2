@@ -1,0 +1,28 @@
+<div id="result">
+   <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Catégorie</th>
+                <th>Spécialité</th>
+                <th>Communauté(s)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pro in professionnels %}
+                <tr>
+                    <td>{{ pro.nom }}</td>
+                    <td>{{ pro.prenom }}</td>
+                    <td>{{ pro.categorie.libelle }}</td>
+                    <td>{{ pro.specialite.libelle }}</td>
+                    <td>{{ pro.getCommunautes|map(c => c.nom)|join(', ') }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Aucun professionnel trouvé.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+<div>
