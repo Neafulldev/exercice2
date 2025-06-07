@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\CategorieRepository;
 use App\Repository\SpecialiteRepository;
 use App\Repository\ProfessionnelRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +18,8 @@ class ProfessionnelsController extends AbstractController
         Request $request,
         ProfessionnelRepository $professionnelRepository,
         CategorieRepository $categorieRepository,
-        SpecialiteRepository $specialiteRepository
+        SpecialiteRepository $specialiteRepository,
+        PaginatorInterface $paginator,
     ): Response
     {
         // Récupération des filtres dans l'URL
@@ -43,18 +45,24 @@ class ProfessionnelsController extends AbstractController
             $filters['specialite'] = $specialiteId;
         }
 
-        $professionnels = $professionnelRepository->findByFilters($filters);
+        $queryBuilder = $professionnelRepository->findByFilters($filters);
+
+        $pagination = $paginator->paginate(
+            $queryBuilder,
+            $request->query->getInt('page', 1),
+            5
+        );
 
         // Render result si requête ajax
         if ($request->isXmlHttpRequest()) {
             return $this->render('professionnels/_result.html.twig', [
-                'professionnels' => $professionnels
+                'professionnels' => $pagination
             ]);
         }
 
         // Render page complète
         return $this->render('professionnels/index.html.twig', [
-            'professionnels' => $professionnels,
+            'professionnels' => $pagination,
             'categories' => $categories,
             'specialites' => $specialites,
             'selected_categorie' => $categorieId,

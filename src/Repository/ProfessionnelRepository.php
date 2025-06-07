@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Professionnel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -35,7 +36,7 @@ class ProfessionnelRepository extends ServiceEntityRepository
             ->setParameter('specId', $filters['specialite']);
         }
 
-        return $qb->getQuery()->getResult();
+        return $qb;
     }
 
 //    /**

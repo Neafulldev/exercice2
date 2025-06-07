@@ -31,10 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Render professionnels
-    function renderProfessionals(categorieId, specialiteId) {
+    function renderProfessionals(categorieId, specialiteId, page = 1) {
         const params = new URLSearchParams();
         if (categorieId) params.append('categorie', categorieId);
         if (specialiteId) params.append('specialite', specialiteId);
+        if (page) params.append('page', page);
 
         fetch(`/professionnels?${params.toString()}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
             .then(response => response.text())
@@ -46,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Events listeners on select
+    // Events listeners
     categorieSelect.addEventListener('change', () => {
         const categorieId = categorieSelect.value;
         renderSpecialites(categorieId);
@@ -66,6 +67,17 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         renderSpecialites(categorieSelect.value);
     }
+
+    document.addEventListener('click', (event) => {
+        if (event.target.matches('.pagination a')) {
+            event.preventDefault();
+            const url = new URL(event.target.href);
+            const page = url.searchParams.get('page');
+            const categorieId = categorieSelect.value;
+            const specialiteId = specialiteSelect.value;
+            renderProfessionals(categorieId, specialiteId, page);
+        }
+    });
 
     renderProfessionals(categorieSelect.value, specialiteSelect.value);
 });
