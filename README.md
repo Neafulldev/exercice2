@@ -10,6 +10,14 @@ composer install
 
 yarn install
 
+yarn encore dev --watch
+
+# Initialisation base de données
+
+bin/console doctrine:database:create
+
+bin/console doctrine:migrations:migrate
+
 # Lancement de l'application 
 
 symfony server:start
